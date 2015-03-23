@@ -6,6 +6,7 @@
 #include "raytracer.h"
 #include "scene.h"
 #include "common.h"
+#include "iostream"
 
 namespace Raytracer {
 
@@ -46,18 +47,25 @@ void Engine::SetTarget( Pixel* a_Dest, int a_Width, int a_Height )
 //Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist )
 Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
 {
+    cout << "Enter Raytrace" << endl;
     //if (a_Depth > TRACEDEPTH) return 0;
     // trace primary ray
     a_Dist = 1000000.0f;
     vector3 pi;
     Primitive* prim = 0;
-    int result;
+    int result = 0;
+    intersect_flag = false;
+
     // find the nearest intersection
     for ( int s = 0; s < m_Scene->GetNrPrimitives(); s++ )
     {
+        cout << "Value of s is : " << s << endl;
         Primitive* pr = m_Scene->GetPrimitive( s );
         int res;
-        if (res = pr->Intersect( a_Ray, a_Dist ))
+        res = pr->Intersect( a_Ray, a_Dist );
+        cout << "res: " << res << endl;
+        //if (res = pr->Intersect( a_Ray, a_Dist ))
+        if (res == 1)
         {
             prim = pr;
             result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
@@ -115,66 +123,6 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
     return prim;
 }
 
-/*
-Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist )
-{
-    if (a_Depth > TRACEDEPTH) return 0;
-    // trace primary ray
-    a_Dist = 1000000.0f;
-    vector3 pi;
-    Primitive* prim = 0;
-    int result;
-    // find the nearest intersection
-    for ( int s = 0; s < m_Scene->GetNrPrimitives(); s++ )
-    {
-        Primitive* pr = m_Scene->GetPrimitive( s );
-        int res;
-        if (res = pr->Intersect( a_Ray, a_Dist ))
-        {
-            prim = pr;
-            result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
-        }
-    }
-    // no hit, terminate ray
-    if (!prim) return 0;
-    // handle intersection
-    if (prim->IsLight())
-    {
-        // we hit a light, stop tracing
-        a_Acc = Color( 1, 1, 1 );
-    }
-    else
-    {
-        // determine color at point of intersection
-        pi = a_Ray.GetOrigin() + a_Ray.GetDirection() * a_Dist;
-        // trace lights
-        for ( int l = 0; l < m_Scene->GetNrPrimitives(); l++ )
-        {
-            Primitive* p = m_Scene->GetPrimitive( l );
-            if (p->IsLight())
-            {
-                Primitive* light = p;
-                // calculate diffuse shading
-                vector3 L = ((Sphere*)light)->GetCentre() - pi;
-                NORMALIZE( L );
-                vector3 N = prim->GetNormal( pi );
-                if (prim->GetMaterial()->GetDiffuse() > 0)
-                {
-                    float dot = DOT( N, L );
-                    if (dot > 0)
-                    {
-                        float diff = dot * prim->GetMaterial()->GetDiffuse();
-                        // add diffuse component to ray color
-                        //a_Acc += diff * prim->GetMaterial()->GetColor() * light->GetMaterial()->GetColor();
-                    }
-                }
-            }
-        }
-    }
-    // return pointer to primitive hit by primary ray
-    return prim;
-}
-*/
 
 // -----------------------------------------------------------
 // Engine::InitRender
@@ -243,6 +191,10 @@ bool Engine::Render(QImage* myimage)
 
 bool Engine::Render(QImage* myimage)
 {
+
+    int hitCounter = 0;
+    int missCounter = 0;
+
     int renderWidth = 1344;
     int renderHeight = 936;
 
@@ -259,13 +211,31 @@ bool Engine::Render(QImage* myimage)
     // reset last found primitive pointer
     Primitive* lastprim = 0;
     // render remaining lines
+
+    /*
+    int lowery = 368;
+    int uppery = 568;
+    int lowerx = 674;
+    int upperx = 874;
+    */
+
+    int lowery = 467;
+    int uppery = 471;
+    int lowerx = 772;
+    int upperx = 776;
+
     //for ( int y = m_CurrLine; y < (m_Height - 20); y++ )
-    for ( int y = 0; y < renderHeight; y++ )
+    //for ( int y = 0; y < renderHeight; y++ )
+    for (int y = lowery; y < uppery; y++ )
     {
         //m_SX = m_WX1;
         // render pixels for current line
-        for ( int x = 0; x < renderWidth; x++ )
+        //for ( int x = 0; x < renderWidth; x++ )
+        for (int x = lowerx; x < upperx; x++)
         {
+            cout << "Value of y is : " << y << endl;
+            cout << "Value of x is : " << x << endl;
+
             // fire primary ray
             //Color acc( 0, 0, 0 );
             //vector3 dir = vector3( m_SX, m_SY, 0 ) - o;
@@ -291,14 +261,18 @@ bool Engine::Render(QImage* myimage)
             bool flag;
             //Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
             Primitive* prim = Raytrace( r, dist, flag );
+            cout << "flag: " << flag << endl;
             if (flag)
             {
+                hitCounter++;
                 (*myimage).setPixel(x, y, qRgb(255, 255, 255));
             } else
             {
+                missCounter++;
                 (*myimage).setPixel(x, y, qRgb(0,0,0));
             }
-
+            cout << "hitCounter: " << hitCounter << endl;
+            cout << "missCounter: " << missCounter << endl;
 
             /*
             int red = (int)(acc.r * 256);

@@ -7,6 +7,7 @@
 #include "string.h"
 #include "scene.h"
 #include "raytracer.h"
+#include "iostream"
 
 namespace Raytracer {
 
@@ -37,6 +38,7 @@ Material::Material() :
 
 int Sphere::Intersect( Ray& a_Ray, float& a_Dist )
 {
+    cout << "Enter sphere - intersect method." << endl;
     vector3 v = a_Ray.GetOrigin() - m_Centre;
     float b = -DOT( v, a_Ray.GetDirection() );
     float det = (b * b) - DOT( v, v ) + m_SqRadius;
@@ -121,11 +123,13 @@ void Scene::InitScene()
     m_Primitive[0]->GetMaterial()->SetColor( Color( 0.4f, 0.3f, 0.3f ) );
     */
     // big sphere
-    m_Primitive[0] = new Sphere( vector3( 1, -0.8f, 3 ), 2.5f );
-    m_Primitive[0]->SetName( "big sphere" );
-    m_Primitive[0]->GetMaterial()->SetReflection( 0.6f );
+    m_Primitive[0] = new Sphere( vector3( 774, 468, 10 ), 10 );
+    //m_Primitive[0] = new Sphere( vector3( 1, -0.8f, 3 ), 2.5f );
+    //m_Primitive[0]->SetName( "big sphere" );
+    //m_Primitive[0]->GetMaterial()->SetReflection( 0.6f );
     //m_Primitive[1]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.7f ) );
     // small sphere
+    /*
     m_Primitive[1] = new Sphere( vector3( -5.5f, -0.5, 7 ), 2 );
     m_Primitive[1]->SetName( "small sphere" );
     m_Primitive[1]->GetMaterial()->SetReflection( 1.0f );
@@ -139,8 +143,9 @@ void Scene::InitScene()
     m_Primitive[3] = new Sphere( vector3( 2, 5, 1 ), 0.1f );
     m_Primitive[3]->Light( true );
     //m_Primitive[4]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.9f ) );
+    */
     // set number of primitives
-    m_Primitives = 4;
+    m_Primitives = 1;
 }
 
 }; // namespace Raytracer
