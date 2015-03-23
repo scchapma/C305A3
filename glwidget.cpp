@@ -123,13 +123,14 @@ void GLWidget::makeImage( )
     QVector3D CircleCenter(renderWidth/2, renderHeight/2, 10);
     //Add Sphere to scene
     //Add Plane to scene
+
+    //init ray tracer
+    //init scene
     tracer = new Raytracer::Engine();
     tracer->GetScene()->InitScene();
 
     double CircleRadius = 1000;
 
-    //init ray tracer?
-    //init scene
     //render scene here
     //call ray trace elsewhere (traverse objects)
 
