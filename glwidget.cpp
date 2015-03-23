@@ -130,33 +130,10 @@ void GLWidget::makeImage( )
     tracer->GetScene()->InitScene();
 
     double CircleRadius = 1000;
-    double Tester = 2000;
 
     //render scene here
     //call ray trace elsewhere (traverse objects)
-
     tracer->Render(&myimage);
-    /*
-    for(int j = 0; j < renderHeight; ++j)
-        for(int i=0; i < renderWidth; ++ i)
-        {
-            QVector3D Origin = CameraPoint;
-            QVector3D ImagePlanePosition(i, j, 0);
-            QVector3D Direction = ImagePlanePosition - Origin;
-
-            QVector3D Z10Position = Origin + 11*Direction;
-            QVector3D DistanceToCenter = Z10Position - CircleCenter;
-            double length = DistanceToCenter.length();
-            if (length < CircleRadius)
-            {
-                myimage.setPixel(i, j, qRgb(255, 255, 255));
-            } else
-            {
-                myimage.setPixel(i, j, qRgb(0,0,0));
-            }
-
-        }
-     */
 
     qtimage=myimage.copy(0, 0,  myimage.width(), myimage.height());
 

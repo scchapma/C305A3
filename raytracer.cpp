@@ -128,6 +128,8 @@ void Engine::InitRender()
 // Fires rays in the scene one scanline at a time, from left
 // to right
 // -----------------------------------------------------------
+
+/*
 bool Engine::Render(QImage* myimage)
 {
     int renderWidth = 1344;
@@ -161,6 +163,85 @@ bool Engine::Render(QImage* myimage)
 
         }
 }
+*/
+
+
+bool Engine::Render(QImage* myimage)
+{
+    int renderWidth = 1344;
+    int renderHeight = 936;
+
+    //int renderWidth = (*myimage).width;
+    //int renderHeight = (*myimage).height;
+
+    //vector3 CameraPoint(renderWidth/2, renderHeight/2, -1);
+    vector3 CircleCenter(renderWidth/2, renderHeight/2, 10);
+
+    double CircleRadius = 1000;
+
+    // render scene
+    vector3 o(renderWidth/2, renderHeight/2, -1);
+    // reset last found primitive pointer
+    Primitive* lastprim = 0;
+    // render remaining lines
+    //for ( int y = m_CurrLine; y < (m_Height - 20); y++ )
+    for ( int y = 0; y < renderHeight; y++ )
+    {
+        //m_SX = m_WX1;
+        // render pixels for current line
+        for ( int x = 0; x < renderWidth; x++ )
+        {
+            // fire primary ray
+            //Color acc( 0, 0, 0 );
+            //vector3 dir = vector3( m_SX, m_SY, 0 ) - o;
+            vector3 imagePlanePosition = vector3(x, y, 0);
+            vector3 dir = imagePlanePosition - o;
+
+            vector3 Z10Position = o + 11*dir;
+            vector3 DistanceToCenter = Z10Position - CircleCenter;
+            double length = DistanceToCenter.Length();
+            if (length < CircleRadius)
+            {
+                (*myimage).setPixel(x, y, qRgb(255, 255, 255));
+            } else
+            {
+                (*myimage).setPixel(x, y, qRgb(0,0,0));
+            }
+
+            /*
+            NORMALIZE( dir );
+            Ray r( o, dir );
+            float dist;
+            Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
+            */
+
+
+
+            /*
+            int red = (int)(acc.r * 256);
+            int green = (int)(acc.g * 256);
+            int blue = (int)(acc.b * 256);
+            if (red > 255) red = 255;
+            if (green > 255) green = 255;
+            if (blue > 255) blue = 255;
+            m_Dest[m_PPos++] = (red << 16) + (green << 8) + blue;
+            */
+
+            //m_SX += m_DX;
+        }
+        //m_SY += m_DY;
+        // see if we've been working to long already
+        //if ((GetTickCount() - msecs) > 100)
+        //{
+            // return control to windows so the screen gets updated
+            //m_CurrLine = y + 1;
+            //return false;
+        //}
+    }
+    // all done
+    return true;
+}
+
 
 /*
 bool Engine::Render()
