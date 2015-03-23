@@ -219,10 +219,10 @@ bool Engine::Render(QImage* myimage)
     int upperx = 874;
     */
 
-    int lowery = 467;
-    int uppery = 471;
-    int lowerx = 772;
-    int upperx = 776;
+    int lowery = 650;
+    int uppery = 936;
+    int lowerx = 650;
+    int upperx = 1344;
 
     //for ( int y = m_CurrLine; y < (m_Height - 20); y++ )
     //for ( int y = 0; y < renderHeight; y++ )

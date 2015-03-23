@@ -123,7 +123,7 @@ void Scene::InitScene()
     m_Primitive[0]->GetMaterial()->SetColor( Color( 0.4f, 0.3f, 0.3f ) );
     */
     // big sphere
-    m_Primitive[0] = new Sphere( vector3( 774, 468, 10 ), 10 );
+    m_Primitive[0] = new Sphere( vector3( 774, 468, 10 ), 15 );
     //m_Primitive[0] = new Sphere( vector3( 1, -0.8f, 3 ), 2.5f );
     //m_Primitive[0]->SetName( "big sphere" );
     //m_Primitive[0]->GetMaterial()->SetReflection( 0.6f );
