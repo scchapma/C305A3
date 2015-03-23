@@ -42,6 +42,80 @@ void Engine::SetTarget( Pixel* a_Dest, int a_Width, int a_Height )
 // Naive ray tracing: Intersects the ray with every primitive
 // in the scene to determine the closest intersection
 // -----------------------------------------------------------
+
+//Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist )
+Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
+{
+    //if (a_Depth > TRACEDEPTH) return 0;
+    // trace primary ray
+    a_Dist = 1000000.0f;
+    vector3 pi;
+    Primitive* prim = 0;
+    int result;
+    // find the nearest intersection
+    for ( int s = 0; s < m_Scene->GetNrPrimitives(); s++ )
+    {
+        Primitive* pr = m_Scene->GetPrimitive( s );
+        int res;
+        if (res = pr->Intersect( a_Ray, a_Dist ))
+        {
+            prim = pr;
+            result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
+        }
+    }
+    // no hit, terminate ray
+    if (!prim) return 0;
+    // handle intersection
+
+    if(result == 1)
+    {
+        intersect_flag = true;
+    }else
+    {
+        intersect_flag = false;
+    }
+
+    /*
+    if (prim->IsLight())
+    {
+        // we hit a light, stop tracing
+        a_Acc = Color( 1, 1, 1 );
+    }
+    else
+    {
+        // determine color at point of intersection
+        pi = a_Ray.GetOrigin() + a_Ray.GetDirection() * a_Dist;
+        // trace lights
+        for ( int l = 0; l < m_Scene->GetNrPrimitives(); l++ )
+        {
+            Primitive* p = m_Scene->GetPrimitive( l );
+            if (p->IsLight())
+            {
+                Primitive* light = p;
+                // calculate diffuse shading
+                vector3 L = ((Sphere*)light)->GetCentre() - pi;
+                NORMALIZE( L );
+                vector3 N = prim->GetNormal( pi );
+                if (prim->GetMaterial()->GetDiffuse() > 0)
+                {
+                    float dot = DOT( N, L );
+                    if (dot > 0)
+                    {
+                        float diff = dot * prim->GetMaterial()->GetDiffuse();
+                        // add diffuse component to ray color
+                        //a_Acc += diff * prim->GetMaterial()->GetColor() * light->GetMaterial()->GetColor();
+                    }
+                }
+            }
+        }
+    }
+    */
+
+    // return pointer to primitive hit by primary ray
+    return prim;
+}
+
+/*
 Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist )
 {
     if (a_Depth > TRACEDEPTH) return 0;
@@ -100,6 +174,7 @@ Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RInd
     // return pointer to primitive hit by primary ray
     return prim;
 }
+*/
 
 // -----------------------------------------------------------
 // Engine::InitRender
@@ -197,6 +272,7 @@ bool Engine::Render(QImage* myimage)
             vector3 imagePlanePosition = vector3(x, y, 0);
             vector3 dir = imagePlanePosition - o;
 
+            /*
             vector3 Z10Position = o + 11*dir;
             vector3 DistanceToCenter = Z10Position - CircleCenter;
             double length = DistanceToCenter.Length();
@@ -207,14 +283,21 @@ bool Engine::Render(QImage* myimage)
             {
                 (*myimage).setPixel(x, y, qRgb(0,0,0));
             }
+            */
 
-            /*
             NORMALIZE( dir );
             Ray r( o, dir );
             float dist;
-            Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
-            */
-
+            bool flag;
+            //Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
+            Primitive* prim = Raytrace( r, dist, flag );
+            if (flag)
+            {
+                (*myimage).setPixel(x, y, qRgb(255, 255, 255));
+            } else
+            {
+                (*myimage).setPixel(x, y, qRgb(0,0,0));
+            }
 
 
             /*

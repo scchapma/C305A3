@@ -41,7 +41,8 @@ public:
     ~Engine();
     void SetTarget( Pixel* a_Dest, int a_Width, int a_Height );
     Scene* GetScene() { return m_Scene; }
-    Primitive* Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist );
+    //Primitive* Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist );
+    Primitive* Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag );
     void InitRender();
     //bool Render();
     bool Render(QImage *myImage);
