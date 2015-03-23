@@ -130,6 +130,7 @@ void GLWidget::makeImage( )
     tracer->GetScene()->InitScene();
 
     double CircleRadius = 1000;
+    double Tester = 2000;
 
     //render scene here
     //call ray trace elsewhere (traverse objects)
