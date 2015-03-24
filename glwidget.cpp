@@ -129,14 +129,11 @@ void GLWidget::makeImage( )
     tracer = new Raytracer::Engine();
     tracer->GetScene()->InitScene();
 
-    double CircleRadius = 1000;
-
     //render scene here
     //call ray trace elsewhere (traverse objects)
     tracer->Render(&myimage);
 
     qtimage=myimage.copy(0, 0,  myimage.width(), myimage.height());
-
     prepareImageDisplay(&myimage);
 }
 

@@ -47,8 +47,6 @@ void Engine::SetTarget( Pixel* a_Dest, int a_Width, int a_Height )
 //Primitive* Engine::Raytrace( Ray& a_Ray, Color& a_Acc, int a_Depth, float a_RIndex, float& a_Dist )
 Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
 {
-    cout << "Enter Raytrace" << endl;
-    //if (a_Depth > TRACEDEPTH) return 0;
     // trace primary ray
     a_Dist = 1000000.0f;
     vector3 pi;
@@ -56,14 +54,15 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
     int result = 0;
     intersect_flag = false;
 
+    /*
     // find the nearest intersection
     for ( int s = 0; s < m_Scene->GetNrPrimitives(); s++ )
     {
-        cout << "Value of s is : " << s << endl;
+        //cout << "Value of s is : " << s << endl;
         Primitive* pr = m_Scene->GetPrimitive( s );
         int res;
         res = pr->Intersect( a_Ray, a_Dist );
-        cout << "res: " << res << endl;
+        //cout << "res: " << res << endl;
         //if (res = pr->Intersect( a_Ray, a_Dist ))
         if (res == 1)
         {
@@ -71,10 +70,22 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
             result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
         }
     }
+    */
+
+    //TODO: Hard-coded for one object - uncover for loop for multiple objects
+    Primitive* pr = m_Scene->GetPrimitive(0);
+    int res;
+    res = pr->Intersect( a_Ray, a_Dist );
+    if (res == 1)
+    {
+        prim = pr;
+        result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
+    }
+
     // no hit, terminate ray
     if (!prim) return 0;
-    // handle intersection
 
+    // handle intersection
     if(result == 1)
     {
         intersect_flag = true;
@@ -199,15 +210,11 @@ bool Engine::Render(QImage* myimage)
     int renderHeight = 936;
 
     //int renderWidth = (*myimage).width;
-    //int renderHeight = (*myimage).height;
-
-    //vector3 CameraPoint(renderWidth/2, renderHeight/2, -1);
-    vector3 CircleCenter(renderWidth/2, renderHeight/2, 10);
-
-    double CircleRadius = 1000;
+    //int renderHeight = (*myimage).height;    
 
     // render scene
-    vector3 o(renderWidth/2, renderHeight/2, -1);
+    //vector3 o(renderWidth/2, renderHeight/2, -50);
+    vector3 o(3*renderWidth/4, renderHeight/4, -100);
     // reset last found primitive pointer
     Primitive* lastprim = 0;
     // render remaining lines
@@ -219,8 +226,8 @@ bool Engine::Render(QImage* myimage)
     int upperx = 874;
     */
 
-    int lowery = 650;
-    int uppery = 936;
+    int lowery = 300;
+    int uppery = 650;
     int lowerx = 650;
     int upperx = 1344;
 
@@ -241,19 +248,6 @@ bool Engine::Render(QImage* myimage)
             //vector3 dir = vector3( m_SX, m_SY, 0 ) - o;
             vector3 imagePlanePosition = vector3(x, y, 0);
             vector3 dir = imagePlanePosition - o;
-
-            /*
-            vector3 Z10Position = o + 11*dir;
-            vector3 DistanceToCenter = Z10Position - CircleCenter;
-            double length = DistanceToCenter.Length();
-            if (length < CircleRadius)
-            {
-                (*myimage).setPixel(x, y, qRgb(255, 255, 255));
-            } else
-            {
-                (*myimage).setPixel(x, y, qRgb(0,0,0));
-            }
-            */
 
             NORMALIZE( dir );
             Ray r( o, dir );
@@ -287,13 +281,7 @@ bool Engine::Render(QImage* myimage)
             //m_SX += m_DX;
         }
         //m_SY += m_DY;
-        // see if we've been working to long already
-        //if ((GetTickCount() - msecs) > 100)
-        //{
-            // return control to windows so the screen gets updated
-            //m_CurrLine = y + 1;
-            //return false;
-        //}
+        // see if we've been working to long already    
     }
     // all done
     return true;
