@@ -129,7 +129,7 @@ void Scene::InitScene()
     //m_Primitive[0]->GetMaterial()->SetReflection( 0.6f );
     //m_Primitive[1]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.7f ) );
     // small sphere  
-    m_Primitive[1] = new Sphere( vector3( 575, 400, 25 ), 100 );
+    m_Primitive[1] = new Sphere( vector3( 575, 400, 100 ), 25 );
     /*
     m_Primitive[1]->SetName( "small sphere" );
     m_Primitive[1]->GetMaterial()->SetReflection( 1.0f );

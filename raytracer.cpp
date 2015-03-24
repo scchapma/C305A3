@@ -54,7 +54,6 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
     int result = 0;
     intersect_flag = false;
 
-    /*
     // find the nearest intersection
     for ( int s = 0; s < m_Scene->GetNrPrimitives(); s++ )
     {
@@ -70,8 +69,9 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
             result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
         }
     }
-    */
 
+
+    /*
     //TODO: Hard-coded for one object - uncover for loop for multiple objects
     Primitive* pr = m_Scene->GetPrimitive(0);
     int res;
@@ -81,6 +81,7 @@ Primitive* Engine::Raytrace( Ray& a_Ray, float& a_Dist, bool& intersect_flag )
         prim = pr;
         result = res; // 0 = miss, 1 = hit, -1 = hit from inside primitive
     }
+    */
 
     // no hit, terminate ray
     if (!prim) return 0;
