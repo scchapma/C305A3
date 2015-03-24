@@ -123,14 +123,14 @@ void Scene::InitScene()
     m_Primitive[0]->GetMaterial()->SetColor( Color( 0.4f, 0.3f, 0.3f ) );
     */
     // big sphere
-    m_Primitive[0] = new Sphere( vector3( 774, 468, 10 ), 50 );
+    m_Primitive[0] = new Sphere( vector3( 774, 468, 100 ), 100 );
     //m_Primitive[0] = new Sphere( vector3( 1, -0.8f, 3 ), 2.5f );
     //m_Primitive[0]->SetName( "big sphere" );
     //m_Primitive[0]->GetMaterial()->SetReflection( 0.6f );
     //m_Primitive[1]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.7f ) );
-    // small sphere
+    // small sphere  
+    m_Primitive[1] = new Sphere( vector3( 575, 400, 25 ), 100 );
     /*
-    m_Primitive[1] = new Sphere( vector3( -5.5f, -0.5, 7 ), 2 );
     m_Primitive[1]->SetName( "small sphere" );
     m_Primitive[1]->GetMaterial()->SetReflection( 1.0f );
     m_Primitive[1]->GetMaterial()->SetDiffuse( 0.1f );
@@ -145,7 +145,7 @@ void Scene::InitScene()
     //m_Primitive[4]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.9f ) );
     */
     // set number of primitives
-    m_Primitives = 1;
+    m_Primitives = 2;
 }
 
 }; // namespace Raytracer

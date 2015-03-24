@@ -213,23 +213,19 @@ bool Engine::Render(QImage* myimage)
     //int renderHeight = (*myimage).height;    
 
     // render scene
-    //vector3 o(renderWidth/2, renderHeight/2, -50);
-    vector3 o(3*renderWidth/4, renderHeight/4, -100);
+    vector3 o(renderWidth/2, renderHeight/2, -50);
+    //vector3 o(3*renderWidth/4, renderHeight/4, -100);
+    //vector3 dir(renderWidth/2, renderHeight/2, -1);
+    vector3 dir(0, 0, 100);
+
     // reset last found primitive pointer
     Primitive* lastprim = 0;
     // render remaining lines
 
-    /*
-    int lowery = 368;
-    int uppery = 568;
-    int lowerx = 674;
-    int upperx = 874;
-    */
-
-    int lowery = 300;
-    int uppery = 650;
-    int lowerx = 650;
-    int upperx = 1344;
+    int lowery = 200;
+    int uppery = 700;
+    int lowerx = 300;
+    int upperx = 1000;
 
     //for ( int y = m_CurrLine; y < (m_Height - 20); y++ )
     //for ( int y = 0; y < renderHeight; y++ )
@@ -247,10 +243,11 @@ bool Engine::Render(QImage* myimage)
             //Color acc( 0, 0, 0 );
             //vector3 dir = vector3( m_SX, m_SY, 0 ) - o;
             vector3 imagePlanePosition = vector3(x, y, 0);
-            vector3 dir = imagePlanePosition - o;
+            //vector3 dir = imagePlanePosition - o;
 
             NORMALIZE( dir );
-            Ray r( o, dir );
+            //Ray r( o, dir );
+            Ray r( imagePlanePosition, dir );
             float dist;
             bool flag;
             //Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
