@@ -3,7 +3,7 @@
 //	FrameWork for OpenGL application under QT
 //  Course title: Computer Graphics CSC305
 //-------------------------------------------------------------------------------------------
-//These two lines are header guiardians against multiple includes
+//These two lines are header guardians against multiple includes
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 

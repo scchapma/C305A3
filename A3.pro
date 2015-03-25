@@ -14,7 +14,9 @@ HEADERS += glwidget.h \
     common.h \
     raytracer.h \
     scene.h \
-    surface.h
+    surface.h \
+    ray.h \
+    shape.h
 
 FORMS += MainWindow.ui 
 
@@ -23,7 +25,9 @@ SOURCES += glwidget.cpp \
     window.cpp \
     raytracer.cpp \
     scene.cpp \
-    surface.cpp
+    surface.cpp \
+    ray.cpp \
+    shape.cpp
 
 
 QT += opengl

@@ -12,6 +12,14 @@
 #include "scene.h"
 #include "surface.h"
 
+#include <vector>
+#include <iostream>
+#include "rgb.h"
+//#include "Image.h"
+#include "shape.h"
+#include "sphere.h"
+#include "ray.h"
+
 Raytracer::Engine* tracer = 0;
 
 GLWidget::GLWidget(QWidget *parent)
@@ -114,24 +122,45 @@ void GLWidget::saveImage( QString fileBuf )
 
 void GLWidget::makeImage( )
 {   
+    HitRecord rec;
+    bool is_a_hit;
+    float tmax;
+    QVector3D dir (0, 0, -1);
+
+    //geometry
+    vector<Shape*> shapes;
+    shapes.push_back(new Sphere (QVector3D(250, 250, -1000), 150, rgb(.2, .2, .8)));
+    shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, rgb(.8, .2, .2)));
+
     QImage myimage(renderWidth, renderHeight, QImage::Format_RGB32);
+    //cerr << "renderWidth and renderHeight: "<< renderWidth SEP renderHeight NL;
 
-    cerr << "renderWidth and renderHeight: "<< renderWidth SEP renderHeight NL;
+    for (int i = 0; i < renderWidth; i++)
+        for (int j = 0; j < renderHeight; j++)
+        {
+            tmax = 100000.0f;
+            is_a_hit = false;
+            Ray r(QVector3D(i, j, 0), dir);
 
-    //TODO: Ray trace a simple circle following the tutorial!
-    QVector3D CameraPoint(renderWidth/2, renderHeight/2, -1);
-    QVector3D CircleCenter(renderWidth/2, renderHeight/2, 10);
-    //Add Sphere to scene
-    //Add Plane to scene
+            //loop over list of Shapes
+            for (int k = 0; k < shapes.size(); k++)
+                if (shapes[k]->hit(r, .00001f, tmax, rec))
+                {
+                    tmax = rec.t;
+                    is_a_hit = true;
+                }
+            if (is_a_hit)
+                (*myimage).setPixel(i, j, rec.color);
+            else
+                (*myimage).setPixel(i, j, qRgb(60,60,60));
+        }
 
-    //init ray tracer
-    //init scene
-    tracer = new Raytracer::Engine();
-    tracer->GetScene()->InitScene();
+    //tracer = new Raytracer::Engine();
+    //tracer->GetScene()->InitScene();
 
     //render scene here
     //call ray trace elsewhere (traverse objects)
-    tracer->Render(&myimage);
+    //tracer->Render(&myimage);
 
     qtimage=myimage.copy(0, 0,  myimage.width(), myimage.height());
     prepareImageDisplay(&myimage);
