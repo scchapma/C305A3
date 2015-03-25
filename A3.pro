@@ -16,7 +16,8 @@ HEADERS += glwidget.h \
     scene.h \
     surface.h \
     ray.h \
-    shape.h
+    shape.h \
+    sphere.h
 
 FORMS += MainWindow.ui 
 
@@ -27,7 +28,8 @@ SOURCES += glwidget.cpp \
     scene.cpp \
     surface.cpp \
     ray.cpp \
-    shape.cpp
+    shape.cpp \
+    sphere.cpp
 
 
 QT += opengl
