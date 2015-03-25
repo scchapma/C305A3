@@ -19,7 +19,7 @@ public:
     int _r;
     int _g;
     int _b;
-    QRgb color;
+    QRgb color = (_r, _g, _b);
 };
 
 #endif // RGB_H

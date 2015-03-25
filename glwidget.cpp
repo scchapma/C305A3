@@ -129,8 +129,8 @@ void GLWidget::makeImage( )
 
     //geometry
     vector<Shape*> shapes;
-    shapes.push_back(new Sphere (QVector3D(250, 250, -1000), 150, rgb(60, 60, 200)));
-    shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, rgb(200, 60, 60)));
+    shapes.push_back(new Sphere (QVector3D(250, 250, -1000), 150, rgb(255, 255, 255)));
+    shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, rgb(250, 0, 255)));
 
     QImage myimage(renderWidth, renderHeight, QImage::Format_RGB32);
     //cerr << "renderWidth and renderHeight: "<< renderWidth SEP renderHeight NL;
@@ -150,8 +150,8 @@ void GLWidget::makeImage( )
                     is_a_hit = true;
                 }
             if (is_a_hit)
-                //myimage.setPixel(i, j, rec.color);
-                myimage.setPixel(i, j, qRgb(200, 60, 60));
+                myimage.setPixel(i, j, rec.color.color);
+                //myimage.setPixel(i, j, qRgb(200, 60, 60));
             else
                 myimage.setPixel(i, j, qRgb(60,60,60));
         }

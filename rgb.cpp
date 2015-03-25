@@ -1,8 +1,11 @@
 #include "rgb.h"
 
-rgb::rgb(int red, int blue, int green)
+rgb::rgb(int red, int green, int blue)
 {
-    color = (red, blue, green);
+    //color = (red, green, blue);
+    setRed(red);
+    setGreen(green);
+    setBlue(blue);
 }
 
 rgb::~rgb()
