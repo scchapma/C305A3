@@ -1,21 +1,19 @@
 #include "sphere.h"
 #include <math.h>
-
-Sphere::Sphere()
-{
-
-}
+#include <QWidget>
+#include <QVector3D>
 
 Sphere::Sphere(const QVector3D &_center, float _radius, const rgb &_color)
     :center(_center), radius(_radius), color(_color) {}
 
-bool Sphere::hit(const Ray &r, float tmin, float tmax, float time, HitRecord &record) const
+bool Sphere::hit(const Ray &r, float tmin, float tmax, HitRecord &record) const
 {
     QVector3D temp = r.origin() - center;
 
-    double a = QVector3D.dotProduct(r.direction(), r.direction());
-    double b = 2*QVector3D.dotProduct(r.direction(), temp);
-    double c = QVector3D.dotProduct(temp, temp) - radius*radius;
+    //TODO:  This is stupid - must be better way to call static function than using "temp" here
+    double a = temp.dotProduct( r.direction(), r.direction());
+    double b = 2*temp.dotProduct(r.direction(), temp);
+    double c = temp.dotProduct(temp, temp) - radius*radius;
 
     double discriminant = b*b - 4*a*c;
 

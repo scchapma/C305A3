@@ -8,6 +8,14 @@
 #include "common.h"
 #include "iostream"
 
+#include <vector>
+#include <iostream>
+//#include "rgb.h"
+//#include "Image.h"
+#include "shape.h"
+#include "sphere.h"
+#include "ray.h"
+
 namespace Raytracer {
 
 Ray::Ray( vector3& a_Origin, vector3& a_Dir ) :
