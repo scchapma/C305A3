@@ -7,22 +7,18 @@
 //-------------------------------------------------------------------------------------------
 #include <QVector3D>
 #include <math.h>
+#include <vector>
+#include <iostream>
 
 #include "glwidget.h"
 #include "common.h"
-//#include "raytracer.h"
 #include "scene.h"
 #include "surface.h"
-
-#include <vector>
-#include <iostream>
-//#include "rgb.h"
-//#include "Image.h"
 #include "shape.h"
 #include "sphere.h"
 #include "ray.h"
 
-Raytracer::Engine* tracer = 0;
+//Raytracer::Engine* tracer = 0;
 
 GLWidget::GLWidget(QWidget *parent)
     : QGLWidget(parent)
@@ -131,8 +127,8 @@ void GLWidget::makeImage( )
 
     //geometry
     vector<Shape*> shapes;
-    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
     shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 215, 0)));
+    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
 
     QVector3D lightPosition (-100, -150, 300);
@@ -197,7 +193,7 @@ void GLWidget::makeImage( )
                 QVector3D specularColor (255, 255, 255);
                 specularColor = (mySpec*specularCoefficient) * specularColor;
 
-                //add diffused and specular components
+                //add diffuse and specular components
                 rec.color += specularColor;
 
                 //clamp
@@ -213,13 +209,6 @@ void GLWidget::makeImage( )
             else
                 myimage.setPixel(i, j, qRgb(60,60,60));
         }
-
-    //tracer = new Raytracer::Engine();
-    //tracer->GetScene()->InitScene();
-
-    //render scene here
-    //call ray trace elsewhere (traverse objects)
-    //tracer->Render(&myimage);
 
     qtimage=myimage.copy(0, 0,  myimage.width(), myimage.height());
     prepareImageDisplay(&myimage);
