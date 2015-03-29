@@ -6,6 +6,7 @@
 // added progress bar to show memory usage.
 //-------------------------------------------------------------------------------------------
 #include <QVector3D>
+#include <math.h>
 
 #include "glwidget.h"
 #include "common.h"
@@ -172,10 +173,31 @@ void GLWidget::makeImage( )
                 if(rec.color.x() > 255) rec.color.setX(255);
                 if(rec.color.y() > 255) rec.color.setY(255);
                 if(rec.color.z() > 255) rec.color.setZ(255);
-                myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
+                //myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
 
                 //add specular component
+                float myDot = - incidentLightRay.dotProduct(incidentLightRay, surfaceNormal);
+                float myLen = 2.0f * myDot;
 
+                QVector3D tempNormal = myLen * surfaceNormal;
+                QVector3D reflectVector = (tempNormal + incidentLightRay).normalized();
+
+                float mySpec = 0.0;
+                float tempDot = - reflectVector.dotProduct(reflectVector, incidentLightRay);
+                if (tempDot > 0.0) mySpec = tempDot;
+
+                mySpec = powf(mySpec, 20);
+
+                QVector3D specularColor (255, 255, 255);
+                specularColor *= mySpec;
+                rec.color += specularColor;
+                if(rec.color.x() < 0) rec.color.setX(0);
+                if(rec.color.y() < 0) rec.color.setY(0);
+                if(rec.color.z() < 0) rec.color.setZ(0);
+                if(rec.color.x() > 255) rec.color.setX(255);
+                if(rec.color.y() > 255) rec.color.setY(255);
+                if(rec.color.z() > 255) rec.color.setZ(255);
+                myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
 
             }
             else
