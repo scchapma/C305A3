@@ -134,8 +134,9 @@ void GLWidget::makeImage( )
     shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
 
     //hard code light position - QVector3d
-    QVector3D lightPosition (0, 0, 0);
+    QVector3D lightPosition (-100, -150, 300);
     float diffuseFactor;
+    float intensityFactor = 1.5;
     QVector3D incidentLightRay;
     QVector3D surfaceNormal;
 
@@ -164,10 +165,14 @@ void GLWidget::makeImage( )
                 surfaceNormal = rec.normal;
                 diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
                 diffuseFactor *= (-1);
+                diffuseFactor *= intensityFactor;
                 rec.color *= diffuseFactor;
                 if(rec.color.x() < 0) rec.color.setX(0);
                 if(rec.color.y() < 0) rec.color.setY(0);
                 if(rec.color.z() < 0) rec.color.setZ(0);
+                if(rec.color.x() > 255) rec.color.setX(255);
+                if(rec.color.y() > 255) rec.color.setY(255);
+                if(rec.color.z() > 255) rec.color.setZ(255);
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
             }
             else
