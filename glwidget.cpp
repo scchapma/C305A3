@@ -5,6 +5,7 @@
 // fixed memory management November 2012 delete works properly now.
 // added progress bar to show memory usage.
 //-------------------------------------------------------------------------------------------
+#include <QVector3D>
 
 #include "glwidget.h"
 #include "common.h"
@@ -132,6 +133,12 @@ void GLWidget::makeImage( )
     shapes.push_back(new Sphere (QVector3D(250, 250, -1000), 150, QVector3D(139, 0, 139)));
     shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
 
+    //hard code light position - QVector3d
+    QVector3D lightPosition (0, 0, 0);
+    float diffuseFactor;
+    QVector3D incidentLightRay;
+    QVector3D surfaceNormal;
+
     QImage myimage(renderWidth, renderHeight, QImage::Format_RGB32);
     //cerr << "renderWidth and renderHeight: "<< renderWidth SEP renderHeight NL;
 
@@ -150,8 +157,19 @@ void GLWidget::makeImage( )
                     is_a_hit = true;
                 }
             if (is_a_hit)
+            {
+                //do shading here
+                //hard code light position - QVector3d
+                incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
+                surfaceNormal = rec.normal;
+                diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
+                diffuseFactor *= (-1);
+                rec.color *= diffuseFactor;
+                if(rec.color.x() < 0) rec.color.setX(0);
+                if(rec.color.y() < 0) rec.color.setY(0);
+                if(rec.color.z() < 0) rec.color.setZ(0);
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
-                //myimage.setPixel(i, j, qRgb(200, 200, 60));
+            }
             else
                 myimage.setPixel(i, j, qRgb(60,60,60));
         }

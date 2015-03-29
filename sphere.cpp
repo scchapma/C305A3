@@ -31,6 +31,8 @@ bool Sphere::hit(const Ray &r, float tmin, float tmax, HitRecord &record) const
 
         // we have a valid hit
         record.t = t;
+        QVector3D intersectionPoint = r.origin() + t*r.direction();
+        record.intersectionPoint = intersectionPoint.normalized();
         QVector3D normal = r.origin() + t*r.direction() - center;
         record.normal = normal.normalized();
         record.color = color;

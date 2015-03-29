@@ -12,6 +12,7 @@ struct HitRecord
 {
     float t;
     QVector3D normal;
+    QVector3D intersectionPoint;
     QVector3D color;
 };
 
