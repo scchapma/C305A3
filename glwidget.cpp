@@ -136,6 +136,7 @@ void GLWidget::makeImage( )
     //hard code light position - QVector3d
     QVector3D lightPosition (-100, -150, 300);
     float diffuseFactor;
+    float diffuseCoefficient, specularCoefficient;
     float intensityFactor = 1.5;
     QVector3D incidentLightRay;
     QVector3D surfaceNormal;
@@ -159,13 +160,11 @@ void GLWidget::makeImage( )
                 }
             if (is_a_hit)
             {
-                //do shading here
-                //hard code light position - QVector3d
+                //add diffuse component
                 incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
                 surfaceNormal = rec.normal;
                 diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
                 diffuseFactor *= (-1);
-                diffuseFactor *= intensityFactor;
                 rec.color *= diffuseFactor;
                 if(rec.color.x() < 0) rec.color.setX(0);
                 if(rec.color.y() < 0) rec.color.setY(0);
@@ -174,6 +173,10 @@ void GLWidget::makeImage( )
                 if(rec.color.y() > 255) rec.color.setY(255);
                 if(rec.color.z() > 255) rec.color.setZ(255);
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
+
+                //add specular component
+
+
             }
             else
                 myimage.setPixel(i, j, qRgb(60,60,60));
