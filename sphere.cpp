@@ -3,7 +3,7 @@
 #include <QWidget>
 #include <QVector3D>
 
-Sphere::Sphere(const QVector3D &_center, float _radius, const rgb &_color)
+Sphere::Sphere(const QVector3D &_center, float _radius, const QVector3D &_color)
     :center(_center), radius(_radius), color(_color) {}
 
 bool Sphere::hit(const Ray &r, float tmin, float tmax, HitRecord &record) const

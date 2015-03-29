@@ -12,7 +12,7 @@ struct HitRecord
 {
     float t;
     QVector3D normal;
-    rgb color;
+    QVector3D color;
 };
 
 class Shape
