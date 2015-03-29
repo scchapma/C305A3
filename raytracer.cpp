@@ -228,7 +228,7 @@ bool Engine::Render(QImage* myimage)
     vector3 dir(0, 0, 100);
 
     // reset last found primitive pointer
-    Primitive* lastprim = 0;
+    //Primitive* lastprim = 0;
     // render remaining lines
 
     int lowery = 200;
@@ -257,10 +257,10 @@ bool Engine::Render(QImage* myimage)
             NORMALIZE( dir );
             //Ray r( o, dir );
             Ray r( imagePlanePosition, dir );
-            float dist;
-            bool flag;
+            bool flag = false;
+            //float dist;
             //Primitive* prim = Raytrace( r, acc, 1, 1.0f, dist );
-            Primitive* prim = Raytrace( r, dist, flag );
+            //Primitive* prim = Raytrace( r, dist, flag );
             cout << "flag: " << flag << endl;
             if (flag)
             {

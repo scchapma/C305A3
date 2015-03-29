@@ -10,13 +10,13 @@
 
 #include "glwidget.h"
 #include "common.h"
-#include "raytracer.h"
+//#include "raytracer.h"
 #include "scene.h"
 #include "surface.h"
 
 #include <vector>
 #include <iostream>
-#include "rgb.h"
+//#include "rgb.h"
 //#include "Image.h"
 #include "shape.h"
 #include "sphere.h"
@@ -131,8 +131,8 @@ void GLWidget::makeImage( )
 
     //geometry
     vector<Shape*> shapes;
-    shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
-    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 215, 0)));
+    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
+    shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 215, 0)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
 
     QVector3D lightPosition (-100, -150, 300);

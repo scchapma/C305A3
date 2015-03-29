@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "shape.h"
 #include "ray.h"
-#include "rgb.h"
+//#include "rgb.h"
 
 class Sphere : public Shape
 {

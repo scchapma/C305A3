@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <ray.h>
-#include <rgb.h>
+//#include <rgb.h>
 
 class Ray;
 class rgb;
