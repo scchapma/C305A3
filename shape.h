@@ -14,6 +14,9 @@ struct HitRecord
     QVector3D normal;
     QVector3D intersectionPoint;
     QVector3D color;
+
+public:
+    void clamp();
 };
 
 class Shape

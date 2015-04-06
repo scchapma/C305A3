@@ -127,9 +127,9 @@ void GLWidget::makeImage( )
 
     //geometry
     vector<Shape*> shapes;
-    shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 215, 0)));
-    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
-    //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
+    //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 215, 0)));
+    shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(139, 0, 139)));
+    shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(255, 215, 0)));
 
     QVector3D lightPosition (-100, -150, 300);
     //QVector3D lightPosition (0, -150, 300);
@@ -169,13 +169,7 @@ void GLWidget::makeImage( )
                 rec.color = (diffuseFactor*diffuseCoefficient)*rec.color;
 
                 //clamp
-                if(rec.color.x() < 0) rec.color.setX(0);
-                if(rec.color.y() < 0) rec.color.setY(0);
-                if(rec.color.z() < 0) rec.color.setZ(0);
-                if(rec.color.x() > 255) rec.color.setX(255);
-                if(rec.color.y() > 255) rec.color.setY(255);
-                if(rec.color.z() > 255) rec.color.setZ(255);
-                //myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
+                rec.clamp();
 
                 //add specular component
                 float myDot = - incidentLightRay.dotProduct(incidentLightRay, surfaceNormal);
@@ -196,13 +190,8 @@ void GLWidget::makeImage( )
                 //add diffuse and specular components
                 rec.color += specularColor;
 
-                //clamp
-                if(rec.color.x() < 0) rec.color.setX(0);
-                if(rec.color.y() < 0) rec.color.setY(0);
-                if(rec.color.z() < 0) rec.color.setZ(0);
-                if(rec.color.x() > 255) rec.color.setX(255);
-                if(rec.color.y() > 255) rec.color.setY(255);
-                if(rec.color.z() > 255) rec.color.setZ(255);
+                //clamp             
+                rec.clamp();
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
 
             }

@@ -18,7 +18,8 @@ HEADERS += glwidget.h \
     ray.h \
     shape.h \
     sphere.h \
-    rgb.h
+    rgb.h \
+    color.h
 
 FORMS += MainWindow.ui 
 
@@ -31,7 +32,8 @@ SOURCES += glwidget.cpp \
     ray.cpp \
     shape.cpp \
     sphere.cpp \
-    rgb.cpp
+    rgb.cpp \
+    color.cpp
 
 
 QT += opengl
