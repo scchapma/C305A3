@@ -3,13 +3,14 @@
 
 #include <QWidget>
 #include <glwidget.h>
+#include <vector>
 #include "shape.h"
 
 class RayTracer
 {
 public:
     RayTracer();
-    bool rayTrace(HitRecord &rec, int i, int j);
+    bool rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes);
     void initRender();
     void render(QImage &myimage, int width, int height);
     ~RayTracer();
