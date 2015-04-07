@@ -5,6 +5,8 @@
 #include "sphere.h"
 #include <stdlib.h>
 
+const unsigned short int sampleSize = 7;
+
 RayTracer::RayTracer()
 {
 
@@ -19,43 +21,28 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     tmax = 100000.0f;
     is_a_hit = false;
 
-    /*
-    Ray r(QVector3D(i, j, 0), dir);
-
-    //loop over list of Shapes
-    for (int k = 0; k < (int)shapes.size(); k++)
-        if (shapes[k]->hit(r, .00001f, tmax, rec))
-        {
-            tmax = rec.t;
-            is_a_hit = true;
-        }
-    */
-
+    //initialize sampling values
     float t = 0;
     QVector3D normal (0, 0, 0);
     QVector3D intersectionPoint (0, 0, 0);
     QVector3D color (0, 0, 0);
 
     //add sampling
-    QVector2D samples[9];
+    QVector2D samples[sampleSize*sampleSize];
     int a, b, c;
 
-    for(a = 0; a < 3; a++){
-        for(b = 0; b < 3; b++)
+    for(a = 0; a < sampleSize; a++){
+        for(b = 0; b < sampleSize; b++)
         {
             float x = ((double)a + drand48()) / 3;
             float y = ((double)b + drand48()) / 3;
             (samples[a*3 + b]).setX(x);
-            (samples[a*3 + b]).setY(y);
-            //cout << "x: " << (samples[a*3 + b]).x() << endl;
-            //cout << "y: " << (samples[a*3 + b]).y() << endl;
+            (samples[a*3 + b]).setY(y);         
         }
     }
 
-    for(c = 0; c < 9; c++){
-        tmax = 100000.0f;
-        //is_a_hit = false;
-        //Ray r(QVector3D(i + samples[c].x(), j + samples[c].y(), 0), dir);
+    for(c = 0; c < sampleSize*sampleSize; c++){
+        tmax = 100000.0f;        
         QVector3D origin(i + samples[c].x() - 0.5, j + samples[c].y() - 0.5, 0);
         Ray r(origin, dir);
         for (int k = 0; k < (int)shapes.size(); k++)
@@ -69,23 +56,14 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
         t += rec.t;
         normal += rec.normal;
         intersectionPoint += rec.intersectionPoint;
-        color += rec.color;
-        //cout << "t: " << t << endl;
-        //cout << "normal: " <<  normal.x() << normal.y() << normal.z() << endl;
-        //cout << "intersectionPoint: " << intersectionPoint.x() << intersectionPoint.y() << intersectionPoint.z() << endl;
-        //cout << "color: " << color.x() << color.y() << color.z() << endl;
+        color += rec.color;        
     }
 
-    rec.t = t/9;
-    rec.normal = normal/9;
-    rec.intersectionPoint = intersectionPoint/9;
-    rec.color = color/9;
-
+    rec.t = t/(sampleSize*sampleSize);
+    rec.normal = normal/(sampleSize*sampleSize);
+    rec.intersectionPoint = intersectionPoint/(sampleSize*sampleSize);
+    rec.color = color/(sampleSize*sampleSize);
     rec.normal = rec.normal.normalized();
-    //cout << "final t: " << rec.t << endl;
-    //cout << "final normal: " <<  rec.normal.x() << rec.normal.y() << rec.normal.z() << endl;
-    //cout << "final intersectionPoint: " << rec.intersectionPoint.x() << rec.intersectionPoint.y() << rec.intersectionPoint.z() << endl;
-    //cout << "final color: " << rec.color.x() << rec.color.y() << rec.color.z() << endl;
 
     return is_a_hit;
 }
@@ -103,7 +81,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
 
     //geometry
     vector<Shape*> shapes;
-    shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 0, 139)));
+    shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 139, 139)));
     //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 0, 0)));
     shapes.push_back(new Sphere (QVector3D(150, 150, -1100), 100, QVector3D(255, 215, 0)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(0, 0, 255)));
