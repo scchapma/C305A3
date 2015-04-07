@@ -66,7 +66,7 @@ image</string>
        <rect>
         <x>20</x>
         <y>70</y>
-        <width>159</width>
+        <width>164</width>
         <height>54</height>
        </rect>
       </property>
@@ -89,44 +89,6 @@ image</string>
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="label">
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Control Panel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="label_2">
-     <property name="minimumSize">
-      <size>
-       <width>100</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>16</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>OpenGL Window</string>
-     </property>
     </widget>
    </item>
    <item row="1" column="2" colspan="2">
@@ -162,6 +124,44 @@ image</string>
        </rect>
       </property>
      </widget>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="label">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Control Panel</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="label_2">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>OpenGL Window</string>
+     </property>
     </widget>
    </item>
   </layout>
