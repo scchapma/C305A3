@@ -11,12 +11,13 @@
 #include <iostream>
 
 #include "glwidget.h"
-#include "common.h"
-#include "scene.h"
-#include "surface.h"
+//#include "common.h"
+//#include "scene.h"
+//#include "surface.h"
 #include "shape.h"
 #include "sphere.h"
 #include "ray.h"
+#include "raytracer.h"
 
 //Raytracer::Engine* tracer = 0;
 
@@ -120,6 +121,7 @@ void GLWidget::saveImage( QString fileBuf )
 
 void GLWidget::makeImage( )
 {   
+    /*
     HitRecord rec;
     bool is_a_hit;
     float tmax;
@@ -141,9 +143,13 @@ void GLWidget::makeImage( )
 
     QVector3D incidentLightRay;
     QVector3D surfaceNormal;
+    */
 
     QImage myimage(renderWidth, renderHeight, QImage::Format_RGB32);
+    RayTracer raytracer = RayTracer();
+    raytracer.render(myimage, renderWidth, renderHeight);
 
+    /*
     for (int i = 0; i < renderWidth; i++)
         for (int j = 0; j < renderHeight; j++)
         {
@@ -197,6 +203,7 @@ void GLWidget::makeImage( )
             else
                 myimage.setPixel(i, j, qRgb(60,60,60));
         }
+        */
 
     qtimage=myimage.copy(0, 0,  myimage.width(), myimage.height());
     prepareImageDisplay(&myimage);

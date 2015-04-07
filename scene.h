@@ -6,14 +6,16 @@
 #ifndef I_SCENE_H
 #define I_SCENE_H
 
-#include "raytracer.h"
+//#include "raytracer.h"
 
+/*
 namespace Raytracer {
 
 // Intersection method return values
 #define HIT		 1		// Ray hit primitive
 #define MISS	 0		// Ray missed primitive
 #define INPRIM	-1		// Ray started inside primitive
+
 
 // -----------------------------------------------------------
 // Material class definition
@@ -86,6 +88,7 @@ private:
     vector3 m_Centre;
     float m_SqRadius, m_Radius, m_RRadius;
 };
+*/
 
 // -----------------------------------------------------------
 // PlanePrim primitive class definition
@@ -110,6 +113,7 @@ private:
 // Scene class definition
 // -----------------------------------------------------------
 
+/*
 class Scene
 {
 public:
@@ -122,7 +126,7 @@ private:
     int m_Primitives;
     Primitive** m_Primitive;
 };
-
 }; // namespace Raytracer
+*/
 
 #endif

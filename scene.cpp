@@ -3,18 +3,21 @@
 // 2004 - Jacco Bikker - jacco@bik5.com - www.bik5.com -   <><
 // -----------------------------------------------------------
 
-#include "common.h"
-#include "string.h"
-#include "scene.h"
-#include "raytracer.h"
-#include "iostream"
+//#include "common.h"
+//#include "string.h"
+//#include "scene.h"
+//#include "raytracer.h"
+//#include "iostream"
 
+/*
 namespace Raytracer {
+*/
 
 // -----------------------------------------------------------
 // Primitive class implementation
 // -----------------------------------------------------------
 
+/*
 void Primitive::SetName( char* a_Name )
 {
     delete m_Name;
@@ -70,6 +73,7 @@ int Sphere::Intersect( Ray& a_Ray, float& a_Dist )
     }
     return retval;
 }
+*/
 
 // -----------------------------------------------------------
 // Plane primitive class implementation
@@ -106,6 +110,7 @@ vector3 PlanePrim::GetNormal( vector3& a_Pos )
 // Scene class implementation
 // -----------------------------------------------------------
 
+/*
 Scene::~Scene()
 {
     delete m_Primitive;
@@ -115,13 +120,13 @@ void Scene::InitScene()
 {
     m_Primitive = new Primitive*[100];
     // ground plane
-    /*
+
     m_Primitive[0] = new PlanePrim( vector3( 0, 1, 0 ), 4.4f );
     m_Primitive[0]->SetName( "plane" );
     m_Primitive[0]->GetMaterial()->SetReflection( 0 );
     m_Primitive[0]->GetMaterial()->SetDiffuse( 1.0f );
     m_Primitive[0]->GetMaterial()->SetColor( Color( 0.4f, 0.3f, 0.3f ) );
-    */
+
     // big sphere
     m_Primitive[0] = new Sphere( vector3( 774, 468, 100 ), 100 );
     //m_Primitive[0] = new Sphere( vector3( 1, -0.8f, 3 ), 2.5f );
@@ -130,7 +135,7 @@ void Scene::InitScene()
     //m_Primitive[1]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.7f ) );
     // small sphere  
     m_Primitive[1] = new Sphere( vector3( 575, 400, 100 ), 25 );
-    /*
+
     m_Primitive[1]->SetName( "small sphere" );
     m_Primitive[1]->GetMaterial()->SetReflection( 1.0f );
     m_Primitive[1]->GetMaterial()->SetDiffuse( 0.1f );
@@ -143,10 +148,13 @@ void Scene::InitScene()
     m_Primitive[3] = new Sphere( vector3( 2, 5, 1 ), 0.1f );
     m_Primitive[3]->Light( true );
     //m_Primitive[4]->GetMaterial()->SetColor( Color( 0.7f, 0.7f, 0.9f ) );
-    */
+
     // set number of primitives
     m_Primitives = 2;
 }
 
 }; // namespace Raytracer
+*/
+
+
 
