@@ -80,6 +80,8 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     rec.normal = normal/9;
     rec.intersectionPoint = intersectionPoint/9;
     rec.color = color/9;
+
+    rec.normal = rec.normal.normalized();
     //cout << "final t: " << rec.t << endl;
     //cout << "final normal: " <<  rec.normal.x() << rec.normal.y() << rec.normal.z() << endl;
     //cout << "final intersectionPoint: " << rec.intersectionPoint.x() << rec.intersectionPoint.y() << rec.intersectionPoint.z() << endl;
