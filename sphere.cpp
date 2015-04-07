@@ -2,6 +2,7 @@
 #include <math.h>
 #include <QWidget>
 #include <QVector3D>
+#include <stdlib.h>
 
 Sphere::Sphere(const QVector3D &_center, float _radius, const QVector3D &_color)
     :center(_center), radius(_radius), color(_color) {}
@@ -36,6 +37,10 @@ bool Sphere::hit(const Ray &r, float tmin, float tmax, HitRecord &record) const
         QVector3D normal = r.origin() + t*r.direction() - center;
         record.normal = normal.normalized();
         record.color = color;
+        //cout << "t: " << record.t << endl;
+        //cout << "normal: " <<  record.normal.x() << record.normal.y() << record.normal.z() << endl;
+        //cout << "intersectionPoint: " << record.intersectionPoint.x() << record.intersectionPoint.y() << record.intersectionPoint.z() << endl;
+        //cout << "color: " << record.color.x() << record.color.y() << record.color.z() << endl;
         return true;
     }
     return false;
