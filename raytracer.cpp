@@ -61,6 +61,7 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     rec.normal = normal/(sampleSize*sampleSize);
     rec.intersectionPoint = intersectionPoint/(sampleSize*sampleSize);
     rec.color = color/(sampleSize*sampleSize);
+    rec.clamp();
     rec.normal = rec.normal.normalized();
 
     return is_a_hit;
@@ -115,7 +116,6 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
         {
             if (rayTrace(rec, i, j, shapes))
             {
-                /*
                 //add diffuse component
                 incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
                 surfaceNormal = rec.normal;
@@ -144,13 +144,11 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
 
                 //add diffuse and specular components
                 rec.color += specularColor;
-                */
 
                 //clamp
                 rec.clamp();
 
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
-
             }
             else                
                 myimage.setPixel(i, j, qRgb(160,160,160));
