@@ -62,10 +62,6 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     rec.color = color/(sampleSize*sampleSize);
     rec.normal = rec.normal.normalized();
 
-    //cout << "final color.x: " << rec.color.x() << endl;
-    //cout << "final color.y: " << rec.color.y() << endl;
-    //cout << "final color.z: " << rec.color.z() << endl;
-
     return is_a_hit;
 }
 
@@ -111,9 +107,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     float specularCoefficient = 0.9;
     int specPower = 50;
 
-    //for (int i = 600; i < 601; i++)
     for (int i = 0; i < renderWidth; i++)
-        //for (int j = 100; j < 101; j++)
         for (int j = 0; j < renderHeight; j++)
         {
             if (rayTrace(rec, i, j, shapes))
@@ -123,7 +117,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
                 surfaceNormal = rec.normal;
                 diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
                 diffuseFactor *= (-1);                
-                rec.color = (diffuseFactor*diffuseCoefficient)*rec.color;                
+                rec.color = (diffuseFactor*diffuseCoefficient)*rec.color;
 
                 //clamp
                 rec.clamp();                
@@ -145,7 +139,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
                 specularColor = (mySpec*specularCoefficient) * specularColor;
 
                 //add diffuse and specular components
-                rec.color += specularColor;                
+                rec.color += specularColor;
 
                 //clamp
                 rec.clamp();                
