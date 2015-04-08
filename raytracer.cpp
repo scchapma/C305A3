@@ -3,9 +3,10 @@
 #include <vector>
 #include "shape.h"
 #include "sphere.h"
+#include "triangle.h"
 #include <stdlib.h>
 
-const unsigned short int sampleSize = 3;
+const unsigned short int sampleSize = 1;
 
 RayTracer::RayTracer()
 {
@@ -94,9 +95,11 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     vector<Shape*> shapes;
 
     //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 0, 0)));
-    shapes.push_back(new Sphere (QVector3D(150, 150, -1100), 100, QVector3D(255, 215, 0)));
+    shapes.push_back(new Sphere (QVector3D(450, 450, -300), 100, QVector3D(255, 215, 0)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(0, 0, 255)));
-    shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 0, 139)));
+    //shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 0, 139)));
+    shapes.push_back(new Triangle (QVector3D(250, 650, -500), QVector3D(250, 250, -500), QVector3D(650, 250, -500), QVector3D(255, 0, 0)));
+    shapes.push_back(new Triangle (QVector3D(650, 250, -500), QVector3D(650, 650, -500), QVector3D(250, 650, -500), QVector3D(255, 0, 0)));
 
     QVector3D lightPosition (-100, -150, 300);
     //QVector3D lightPosition (0, -150, 300);
@@ -112,6 +115,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
         {
             if (rayTrace(rec, i, j, shapes))
             {
+                /*
                 //add diffuse component
                 incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
                 surfaceNormal = rec.normal;
@@ -140,9 +144,11 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
 
                 //add diffuse and specular components
                 rec.color += specularColor;
+                */
 
                 //clamp
-                rec.clamp();                
+                rec.clamp();
+
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
 
             }

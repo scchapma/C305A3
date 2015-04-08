@@ -16,6 +16,7 @@
 //#include "surface.h"
 #include "shape.h"
 #include "sphere.h"
+#include "triangle.h"
 #include "ray.h"
 #include "raytracer.h"
 
