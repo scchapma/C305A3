@@ -22,6 +22,7 @@ Camera RayTracer::initCamera()
 {
     //QVector3D origin (672, 468, 500);
     QVector3D c (500, 468, 200);
+    //QVector3D c (500, 268, 200);
     QVector3D gaze (0, 0, -1);
     QVector3D vup (0, 1, 0);
     const float left = 0.0;
@@ -55,6 +56,7 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     QVector3D color (0, 0, 0);
 
     QVector3D origin (672, 468, 500);
+
     //QVector3D origin (0, 0, 1);
 
     //add sampling
@@ -129,7 +131,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     vector<Shape*> shapes;
 
     //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 0, 0)));
-    shapes.push_back(new Sphere (QVector3D(450, 450, -200), 100, QVector3D(255, 215, 0)));
+    shapes.push_back(new Sphere (QVector3D(450, 450, -200), 50, QVector3D(255, 215, 0)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(0, 0, 255)));
     //shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 0, 139)));
     shapes.push_back(new Triangle (QVector3D(250, 650, -300), QVector3D(250, 250, -300), QVector3D(650, 250, -300), QVector3D(255, 0, 0)));
@@ -139,9 +141,9 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     shapes.push_back(new Triangle (QVector3D(250, 250, -50), QVector3D(250, 250, -300), QVector3D(250, 650, -50), QVector3D(0, 255, 0)));
     shapes.push_back(new Triangle (QVector3D(250, 250, -300), QVector3D(250, 650, -300), QVector3D(250, 650, -50), QVector3D(0, 255, 0)));
 
-    QVector3D lightPosition (100, -150, 300);
+    QVector3D lightPosition (250, -150, 300);
     //QVector3D lightPosition (0, -150, 300);
-    //QVector3D lightPosition (0, 0, 300);
+    //QVector3D lightPosition (50, 0, 300);
 
     float diffuseFactor;
     float ambientCoefficient = 0.9;
@@ -149,46 +151,69 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     float specularCoefficient = 0.9;
     int specPower = 50;
 
+    float tmax = 100000.0f;
+
     for (int i = 0; i < renderWidth; i++)
         for (int j = 0; j < renderHeight; j++)
         {
             if (rayTrace(rec, i, j, shapes))
             {
                 //add ambient component
-
-
-                //add diffuse component
-                incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
-                surfaceNormal = rec.normal;
-                diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
-                diffuseFactor *= (-1);                
-                rec.color = (diffuseFactor*diffuseCoefficient)*rec.color;
-
-                //clamp
-                rec.clamp();                
-
-                //add specular component
-                float myDot = - incidentLightRay.dotProduct(incidentLightRay, surfaceNormal);
-                float myLen = 2.0f * myDot;
-
-                QVector3D tempNormal = myLen * surfaceNormal;
-                QVector3D reflectVector = (tempNormal + incidentLightRay).normalized();
-
-                float mySpec = 0.0;
-                float tempDot = - reflectVector.dotProduct(reflectVector, incidentLightRay);
-                if (tempDot > 0.0) mySpec = tempDot;
-
-                mySpec = powf(mySpec, specPower);
-
-                QVector3D specularColor (255, 255, 255);
-                specularColor = (mySpec*specularCoefficient) * specularColor;
-
-                //add diffuse and specular components
-                rec.color += specularColor;
-
-                //clamp
+                rec.color *= ambientCoefficient;
                 rec.clamp();
 
+                HitRecord srec;
+                int counter = 0;
+                bool is_ambient_hit = false;
+                QVector3D p = rec.intersectionPoint;
+                QVector3D dir = (lightPosition - p).normalized();
+                Ray r(p, dir);
+
+                for (int k = 0; k < (int)shapes.size(); k++)
+                {
+                    if (shapes[k]->hit(r, .00001f, tmax, srec))
+                    {
+                        tmax = srec.t;
+                        is_ambient_hit = true;
+                        counter++;
+                        cout << "counter: " << counter;
+                    }
+                }
+
+                if (!is_ambient_hit)
+                {
+                    //add diffuse component
+                    incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
+                    surfaceNormal = rec.normal;
+                    diffuseFactor = surfaceNormal.dotProduct(incidentLightRay, surfaceNormal);
+                    diffuseFactor *= (-1);
+                    rec.color = (diffuseFactor*diffuseCoefficient)*rec.color;
+
+                    //clamp
+                    rec.clamp();
+
+                    //add specular component
+                    float myDot = - incidentLightRay.dotProduct(incidentLightRay, surfaceNormal);
+                    float myLen = 2.0f * myDot;
+
+                    QVector3D tempNormal = myLen * surfaceNormal;
+                    QVector3D reflectVector = (tempNormal + incidentLightRay).normalized();
+
+                    float mySpec = 0.0;
+                    float tempDot = - reflectVector.dotProduct(reflectVector, incidentLightRay);
+                    if (tempDot > 0.0) mySpec = tempDot;
+
+                    mySpec = powf(mySpec, specPower);
+
+                    QVector3D specularColor (255, 255, 255);
+                    specularColor = (mySpec*specularCoefficient) * specularColor;
+
+                    //add diffuse and specular components
+                    rec.color += specularColor;
+
+                    //clamp
+                    rec.clamp();
+                }
                 myimage.setPixel(i, j, qRgb(rec.color.x(), rec.color.y(), rec.color.z()));
             }
             else                
