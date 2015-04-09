@@ -33,19 +33,30 @@ public:
         W = -gaze.normalized();
         U = gaze.crossProduct(vup, -gaze).normalized();
         V = W.crossProduct(W, U);
-        corner = center + u0*U + v0*V - d*W;
+        //cout << "center.x: " << center.x() << endl;
+        //cout << "center.y: " << center.y() << endl;
+        //cout << "center.z: " << center.z() << endl;
+        //corner = center + u0*U + v0*V - d*W;
+        corner = center - 672*U - 468*V - d*W;
         across = (u1-u0)*U;
+        //cout << "across.x: " << across.x() << endl;
+        //cout << "across.y: " << across.y() << endl;
+        //cout << "across.z: " << across.z() << endl;
         up = (v0-v1)*V;
+        //cout << "up.x: " << up.x() << endl;
+        //cout << "up.y: " << up.y() << endl;
+        //cout << "up.z: " << up.z() << endl;
     }
 
-    Ray getRay(float a, float b)
+    Ray getRay(float a, float b, float height)
     {
-        cout << "a: " << a << "b: " << b << endl;
+        //cout << "a: " << a << "b: " << b << endl;
         QVector3D origin = center;
-        QVector3D target = corner + across*a + up*b;
-        cout << "corner.x: " << corner.x() << endl;
-        cout << "corner.y: " << corner.y() << endl;
-        cout << "corner.z: " << corner.z() << endl;
+        //QVector3D target = corner + across*a + up*(height - b);
+        QVector3D target = corner + U*a + V*b;
+        //cout << "target.x: " << target.x() << endl;
+        //cout << "target.y: " << target.y() << endl;
+        //cout << "target.z: " << target.z() << endl;
         return Ray(origin, (target - origin).normalized());
     }
 

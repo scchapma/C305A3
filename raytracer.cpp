@@ -28,7 +28,7 @@ Camera RayTracer::initCamera()
     const float right = 1344.0;
     const float bottom = 936.0;
     const float top = 0.0;
-    const float distance = 0.0;
+    const float distance = 500.0;
     Camera camera = Camera(c, gaze, vup, left, right, bottom, top, distance);
     return camera;
 }
@@ -36,9 +36,9 @@ Camera RayTracer::initCamera()
 bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
 {
     Camera camera = initCamera();
-    cout << "corner.x: " << camera.corner.x() << endl;
-    cout << "corner.y: " << camera.corner.y() << endl;
-    cout << "corner.z: " << camera.corner.z() << endl;
+    //cout << "corner.x: " << camera.corner.x() << endl;
+    //cout << "corner.y: " << camera.corner.y() << endl;
+    //cout << "corner.z: " << camera.corner.z() << endl;
 
     bool is_a_hit;
     bool sample_hit;
@@ -71,13 +71,13 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
         //cout << "samples[c].x: " << i + samples[c].x() - 0.5 << endl;
         //cout << "samples[c].y: " << j + samples[c].y() - 0.5 << endl;
         //Ray r(origin, dir);
-        Ray r = camera.getRay(i, j);
-        cout << "r.x: " << r.origin().x() << endl;
-        cout << "r.y: " << r.origin().y() << endl;
-        cout << "r.z: " << r.origin().z() << endl;
-        cout << "dir.x: " << r.direction().x() << endl;
-        cout << "dir.y: " << r.direction().y() << endl;
-        cout << "dir.z: " << r.direction().z() << endl;
+        Ray r = camera.getRay(i, j, 0);
+        //cout << "r.x: " << r.origin().x() << endl;
+        //cout << "r.y: " << r.origin().y() << endl;
+        //cout << "r.z: " << r.origin().z() << endl;
+        //cout << "dir.x: " << r.direction().x() << endl;
+        //cout << "dir.y: " << r.direction().y() << endl;
+        //cout << "dir.z: " << r.direction().z() << endl;
 
         for (int k = 0; k < (int)shapes.size(); k++)
         {
@@ -153,8 +153,8 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     float specularCoefficient = 0.9;
     int specPower = 50;
 
-    for (int i = 0; i < 1; i++)
-        for (int j = 0; j < 1; j++)
+    for (int i = 0; i < renderWidth; i++)
+        for (int j = 0; j < renderHeight; j++)
         {
             if (rayTrace(rec, i, j, shapes))
             {
