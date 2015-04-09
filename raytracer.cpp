@@ -21,10 +21,8 @@ RayTracer::RayTracer()
 Camera RayTracer::initCamera()
 {
     //QVector3D origin (672, 468, 500);
-    //QVector3D c (672, 468, 500);
-    QVector3D c (850, 450, -200);
-    QVector3D gaze (-1, 0, 0);
-    //QVector3D gaze (0, 0, -1);
+    QVector3D c (500, 468, 200);
+    QVector3D gaze (0, 0, -1);
     QVector3D vup (0, 1, 0);
     const float left = 0.0;
     const float right = 1344.0;
@@ -73,13 +71,8 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
         //cout << "samples[c].x: " << i + samples[c].x() - 0.5 << endl;
         //cout << "samples[c].y: " << j + samples[c].y() - 0.5 << endl;
         //Ray r(origin, dir);
-        Ray r = camera.getRay(i, j, 0);
-        //cout << "r.x: " << r.origin().x() << endl;
-        //cout << "r.y: " << r.origin().y() << endl;
-        //cout << "r.z: " << r.origin().z() << endl;
-        //cout << "dir.x: " << r.direction().x() << endl;
-        //cout << "dir.y: " << r.direction().y() << endl;
-        //cout << "dir.z: " << r.direction().z() << endl;
+        Ray r = camera.getRay(i + samples[c].x() - 0.5, j + samples[c].y() - 0.5, 0);
+        //Ray r = camera.getRay(i, j, 0);
 
         for (int k = 0; k < (int)shapes.size(); k++)
         {
