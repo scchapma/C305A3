@@ -18,7 +18,7 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     bool is_a_hit;
     bool sample_hit;
     float tmax;
-    QVector3D dir (0, 0, -1);
+    //QVector3D dir (0, 0, -1);
 
     tmax = 100000.0f;
     is_a_hit = false;
@@ -29,6 +29,9 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     QVector3D intersectionPoint (0, 0, 0);
     QVector3D color (0, 0, 0);
 
+    QVector3D origin (672, 468, 500);
+    //QVector3D origin (0, 0, 1);
+
     //add sampling
     QVector2D samples[sampleSize*sampleSize];
 
@@ -37,7 +40,9 @@ bool RayTracer::rayTrace(HitRecord &rec, int i, int j, vector<Shape*> shapes)
     for(int c = 0; c < sampleSize*sampleSize; c++){
         sample_hit = false;
         tmax = 100000.0f;
-        QVector3D origin(i + samples[c].x() - 0.5, j + samples[c].y() - 0.5, 0);
+        //QVector3D origin(i + samples[c].x() - 0.5, j + samples[c].y() - 0.5, 0);
+        QVector3D dir(QVector3D(i, j, 0) - origin);
+        dir.normalized();
         //cout << "samples[c].x: " << i + samples[c].x() - 0.5 << endl;
         //cout << "samples[c].y: " << j + samples[c].y() - 0.5 << endl;
         Ray r(origin, dir);
@@ -96,11 +101,13 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     vector<Shape*> shapes;
 
     //shapes.push_back(new Sphere (QVector3D(675, 450, -1000), 300, QVector3D(255, 0, 0)));
-    shapes.push_back(new Sphere (QVector3D(450, 450, -300), 100, QVector3D(255, 215, 0)));
+    shapes.push_back(new Sphere (QVector3D(450, 450, -200), 100, QVector3D(255, 215, 0)));
     //shapes.push_back(new Sphere (QVector3D(100, 100, -1000), 50, QVector3D(0, 0, 255)));
     //shapes.push_back(new Sphere (QVector3D(600, 600, -500), 500, QVector3D(139, 0, 139)));
-    shapes.push_back(new Triangle (QVector3D(250, 650, -500), QVector3D(250, 250, -500), QVector3D(650, 250, -500), QVector3D(255, 0, 0)));
-    shapes.push_back(new Triangle (QVector3D(650, 250, -500), QVector3D(650, 650, -500), QVector3D(250, 650, -500), QVector3D(255, 0, 0)));
+    shapes.push_back(new Triangle (QVector3D(250, 650, -300), QVector3D(250, 250, -300), QVector3D(650, 250, -300), QVector3D(255, 0, 0)));
+    shapes.push_back(new Triangle (QVector3D(650, 250, -300), QVector3D(650, 650, -300), QVector3D(250, 650, -300), QVector3D(255, 0, 0)));
+    shapes.push_back(new Triangle (QVector3D(250, 650, -300), QVector3D(650, 650, -300), QVector3D(250, 650, -50), QVector3D(0, 0, 255)));
+    shapes.push_back(new Triangle (QVector3D(650, 650, -300), QVector3D(650, 650, -50), QVector3D(250, 650, -50), QVector3D(0, 0, 255)));
 
     QVector3D lightPosition (-100, -150, 300);
     //QVector3D lightPosition (0, -150, 300);
