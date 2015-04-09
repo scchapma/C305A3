@@ -21,7 +21,8 @@ HEADERS += glwidget.h \
     rgb.h \
     color.h \
     triangle.h \
-    camera.h
+    camera.h \
+    plane.h
 
 FORMS += MainWindow.ui 
 
@@ -37,7 +38,8 @@ SOURCES += glwidget.cpp \
     rgb.cpp \
     color.cpp \
     triangle.cpp \
-    camera.cpp
+    camera.cpp \
+    plane.cpp
 
 
 QT += opengl

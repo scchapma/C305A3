@@ -28,4 +28,5 @@ public:
     virtual bool shadowHit(const Ray& r, float tmin, float tmax, float time) const = 0;    
 };
 
+
 #endif // SHAPE_H
