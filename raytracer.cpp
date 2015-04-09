@@ -144,6 +144,7 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
     //QVector3D lightPosition (0, 0, 300);
 
     float diffuseFactor;
+    float ambientCoefficient = 0.9;
     float diffuseCoefficient = 0.9;
     float specularCoefficient = 0.9;
     int specPower = 50;
@@ -153,6 +154,9 @@ void RayTracer::render(QImage &myimage, int renderWidth, int renderHeight)
         {
             if (rayTrace(rec, i, j, shapes))
             {
+                //add ambient component
+
+
                 //add diffuse component
                 incidentLightRay = (rec.intersectionPoint - lightPosition).normalized();
                 surfaceNormal = rec.normal;
