@@ -21,8 +21,10 @@ RayTracer::RayTracer()
 Camera RayTracer::initCamera()
 {
     //QVector3D origin (672, 468, 500);
-    QVector3D c (672, 468, 500);
-    QVector3D gaze (0, 0, -1);
+    //QVector3D c (672, 468, 500);
+    QVector3D c (850, 450, -200);
+    QVector3D gaze (-1, 0, 0);
+    //QVector3D gaze (0, 0, -1);
     QVector3D vup (0, 1, 0);
     const float left = 0.0;
     const float right = 1344.0;
